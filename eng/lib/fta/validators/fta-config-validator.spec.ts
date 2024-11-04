@@ -8,7 +8,7 @@ describe('ftaConfigValidator', () => {
     expect(isInvalid).toBe(false);
   });
 
-  [undefined, 'config', [{ item: true }]].forEach((config, index) => {
+  [null, undefined, 'config', [], {}].forEach((config, index) => {
     it(`should return empty config for empty config ${index}`, () => {
       const analyzedResults = FtaConfigValidator.isInvalid(config);
       expect(analyzedResults).toStrictEqual({

@@ -1,4 +1,4 @@
-import { FtaViolation } from './analysis/fta-violation-builder';
+import { FtaViolation } from '../analysis/fta-violation-builder';
 import { IFtaLogger } from './fta-logger';
 
 export interface IFtaReporter {

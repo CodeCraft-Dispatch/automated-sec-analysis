@@ -1,91 +1,37 @@
-import { CommandBuilder } from "./command-builder";
-import { ExecSyncAdapter } from "./exec-sync-adapter";
-import { ExecSyncBuilder } from "./exec-sync-builder";
-import { ExecSyncOptionsBuilder } from "./exec-sync-options-builder";
-import { ExecutionStrategy } from "./execution-strategy";
-import { Task } from "./task";
-import { TaskProcessor } from "./task-processor";
-import { TaskValidator } from "./task-validator";
+import { TaskProcessorSpecApi } from "./task-processor.spec.api";
 
 describe("taskProcessor", () => {
-  const tp = new TaskProcessor(new ExecSyncBuilder(new CommandBuilder(), new ExecSyncOptionsBuilder(), new ExecutionStrategy(new ExecSyncAdapter(), true)), new TaskValidator());
+  let tp: TaskProcessorSpecApi;
+
+  beforeEach(() => {
+    tp = new TaskProcessorSpecApi();
+  });
 
   describe("markAsTest", () => {
-    it("should return this", () => {
-      expect(tp.markAsTest()).toBe(tp);
-    });
-  });
-
-  describe("processTask(no command)", () => {
-    it("should return empty command with default options", () => {
-      expect(tp.processTask(<Task>{})).toStrictEqual({
-        command: "",
-        options: { stdio: ["inherit", "inherit", "inherit"] },
-      });
-    });
-  });
-
-  describe("processTask(missing stdio settings)", () => {
-    it("should return command with fallback stdio settings", () => {
-      const task: Task = {
-        command: "echo",
-      };
-      expect(tp.processTask(task)).toStrictEqual({
-        command: "echo",
-        options: { stdio: ["inherit", "inherit", "inherit"] },
-      });
-    });
-    it("should return command with default stdio setting", () => {
-      const task: Task = {
-        command: "echo",
-        stdio: {
-          output: "hello",
-          error: "hello",
-          input: "hello",
-        },
-      };
-      expect(tp.processTask(task)).toStrictEqual({
-        command: "echo",
-        options: { stdio: ["hello", "hello", "hello"] },
-      });
+    it("should call isTest with true", () => {
+      tp.whenMarkedAsTest().thenIsTestIsCalled();
     });
   });
 
   describe("processTask", () => {
-    it("should return a result", () => {
-      const task = {
-        command: "echo",
-      };
-      expect(tp.processTask(task)).toStrictEqual({
-        command: "echo",
-        options: { stdio: ["inherit", "inherit", "inherit"] },
-      });
+    it("should process task", () => {
+      tp.whenProcessingTask({ command: "hello" })
+        .thenExecuteCalled();
     });
 
-    it("should return a result with args", () => {
-      const task = {
-        command: "echo",
-        args: ["hello"],
-      };
-      expect(tp.processTask(task)).toStrictEqual({
-        command: "echo hello",
-        options: { stdio: ["inherit", "inherit", "inherit"] },
-      });
+    it("should process task with command", () => {
+      tp.whenProcessingTaskWithCommand("hello")
+        .thenProcessIsCalledWith("hello");
     });
 
-    it("should return a result with stdio", () => {
-      const task = {
-        command: "echo",
-        stdio: {
-          input: "hello",
-          output: "hello",
-          error: "hello",
-        },
-      };
-      expect(tp.processTask(task)).toStrictEqual({
-        command: "echo",
-        options: { stdio: ["hello", "hello", "hello"] },
-      });
+    it("should process task with args", () => {
+      tp.whenProcessingTaskWithArgs(["hello"])
+        .thenArgIsCalledWith("hello");
+    });
+
+    it("should process task with stdio", () => {
+      tp.whenProcessingTaskWithSdtio({ input: "hello", output: "hello", error: "hello" })
+        .thenStdioIsCalledWith("hello", "hello", "hello");
     });
   });
 });

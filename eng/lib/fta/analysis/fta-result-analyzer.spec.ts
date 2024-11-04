@@ -15,7 +15,7 @@ describe('FtaResultAnalyzer', () => {
     });
 
     it('should return invalid when invalid', () => {
-        const config = {};
+        const config = { notValid: [] };
         const results = {};
         const invalid = analyzer.analyze(config, results);
         expect(invalid).toStrictEqual({ invalidConfig: true });

@@ -25,7 +25,7 @@ describe('ftaCompositeValidator', () => {
   });
 
   it('should return the error when config is invalid', () => {
-    const config = {};
+    const config = { invalidConfig: [] };
     const results = [
       {
         coverage: 85,
@@ -61,7 +61,7 @@ describe('ftaCompositeValidator', () => {
   });
 
   it('should return the error when both config and results are invalid', () => {
-    const config = [{ item: true }];
+    const config = {};
     const results = [];
 
     const result = FtaCompositeValidator.isInvalid(config, results);

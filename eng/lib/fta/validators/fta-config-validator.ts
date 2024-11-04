@@ -1,27 +1,14 @@
 import { FtaConfigThresholdsValidator } from './fta-config-thresholds-validator';
 import { FtaConfigProjectsValidator } from './fta-config-projects-validator';
+import { FtaEmptyConfigValidator } from './fta-empty-config-validator';
 
 export class FtaConfigValidator {
   public static isInvalid(config): Object | boolean {
-    let result;
-    const empty = this._isEmpty(config);
+    const empty = FtaEmptyConfigValidator.isEmpty(config) ? { emptyConfig: true } : false;
+    const isInvalidConfig = !empty && !FtaConfigValidator._isValidConfig(config);
+    const invalidConfig = isInvalidConfig ? { invalidConfig: true } : false;
 
-    if (empty) {
-      result = empty;
-    } else if (!this._isValidConfig(config)) {
-      result = { invalidConfig: true };
-    } else {
-      result = false;
-    }
-
-    return result;
-  }
-
-  static _isEmpty(config) {
-    const emptyConfig =
-      !config || typeof config !== 'object' || Boolean(config.length);
-
-    return emptyConfig ? { emptyConfig: true } : false;
+    return empty || invalidConfig;
   }
 
   static _isValidConfig(config) {
