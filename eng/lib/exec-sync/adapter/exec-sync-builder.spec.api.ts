@@ -5,8 +5,8 @@ import { ExecSyncOptionsBuilder } from "./exec-sync-options-builder";
 import { ExecutionStrategy } from "./execution-strategy";
 
 export class ExecSyncBuilderSpecApi {
-  private execSyncBuilder: ExecSyncBuilder;
-  constructor(private isTest: boolean = true) {
+  private readonly execSyncBuilder: ExecSyncBuilder;
+  constructor(private readonly isTest: boolean = true) {
     this.execSyncBuilder = new ExecSyncBuilder(new CommandBuilder(), new ExecSyncOptionsBuilder(), new ExecutionStrategy(new ExecSyncAdapter(), isTest));
   }
 

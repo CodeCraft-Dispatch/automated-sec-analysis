@@ -1,4 +1,4 @@
-import { IExecSyncBuilder } from "./exec-sync-builder";
+import { IExecSyncBuilder } from "../adapter/exec-sync-builder";
 import { Task } from "./task";
 import { TaskCommandProcessor } from "./task-command-processor";
 import { TaskArgsProcessor } from "./task-args-processor";

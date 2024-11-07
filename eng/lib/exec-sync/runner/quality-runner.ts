@@ -1,13 +1,13 @@
-import { ITaskProcessor } from "./task-processor.interface";
+import { ITaskProcessor } from "../tasks/task-processor.interface";
 import { IConfigValidator } from "./config-validator";
-import { ITaskValidator } from "./task-validator";
-import { Task } from "./task";
+import { ITaskValidator } from "../tasks/task-validator";
+import { Task } from "../tasks/task";
 
 export class QualityRunner {
   constructor(
-    private taskProcessor: ITaskProcessor,
-    private configValidator: IConfigValidator,
-    private taskValidator: ITaskValidator
+    private readonly taskProcessor: ITaskProcessor,
+    private readonly configValidator: IConfigValidator,
+    private readonly taskValidator: ITaskValidator
   ) { }
 
   public markAsTest() {

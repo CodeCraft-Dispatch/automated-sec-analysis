@@ -1,4 +1,4 @@
-import { Task } from "../../eng/lib/exec-sync/task";
+import { Task } from "../../eng/lib/exec-sync/tasks/task";
 
 export const tasks: Task[] = [
   {
@@ -13,24 +13,16 @@ export const tasks: Task[] = [
     args: ["Running quality gates..."],
   },
   {
-    command: "echo",
-    args: ["Running quality gate tests..."],
-  },
-  {
     command: "npm",
     args: ["run", "test:gate"],
-  },
-  {
-    command: "echo",
-    args: ["Running engine library tests..."],
   },
   {
     command: "npm",
     args: ["run", "test:engine-library"]
   },
   {
-    command: "echo",
-    args: ["Running npm audit check..."],
+    command: "npm",
+    args: ["run", "test:fundamentalanalysis"],
   },
   {
     command: "npm",

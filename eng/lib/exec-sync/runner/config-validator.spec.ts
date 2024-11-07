@@ -9,6 +9,16 @@ describe("configValidator", () => {
       expect(cv.isValid(config)).toBe(false);
     });
 
+    it("should return false if config.tasks is undefined", () => {
+      const config = { tasks: undefined };
+      expect(cv.isValid(config)).toBe(false);
+    });
+
+    it("should return false if config is undefined", () => {
+      const config = undefined;
+      expect(cv.isValid(config)).toBe(false);
+    });
+
     it("should return true if config.tasks is not an empty array", () => {
       const config = { tasks: [{ name: "test", command: "echo test" }] };
       expect(cv.isValid(config)).toBe(true);

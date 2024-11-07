@@ -1,12 +1,12 @@
-import { QualityRunner } from "../../eng/lib/exec-sync/quality-runner";
-import { TaskProcessor } from "../../eng/lib/exec-sync/task-processor";
-import { ExecSyncBuilder } from "../../eng/lib/exec-sync/exec-sync-builder";
-import { CommandBuilder } from "../../eng/lib/exec-sync/command-builder";
-import { ExecSyncOptionsBuilder } from "../../eng/lib/exec-sync/exec-sync-options-builder";
-import { ExecutionStrategy } from "../../eng/lib/exec-sync/execution-strategy";
-import { ExecSyncAdapter } from "../../eng/lib/exec-sync/exec-sync-adapter";
-import { TaskValidator } from "../../eng/lib/exec-sync/task-validator";
-import { ConfigValidator } from "../../eng/lib/exec-sync/config-validator";
+import { ExecSyncBuilder } from "../../eng/lib/exec-sync/adapter/exec-sync-builder";
+import { CommandBuilder } from "../../eng/lib/exec-sync/adapter/command-builder";
+import { ExecSyncOptionsBuilder } from "../../eng/lib/exec-sync/adapter/exec-sync-options-builder";
+import { ExecSyncAdapter } from "../../eng/lib/exec-sync/adapter/exec-sync-adapter";
+import { ExecutionStrategy } from "../../eng/lib/exec-sync/adapter/execution-strategy";
+import { ConfigValidator } from "../../eng/lib/exec-sync/runner/config-validator";
+import { QualityRunner } from "../../eng/lib/exec-sync/runner/quality-runner";
+import { TaskProcessor } from "../../eng/lib/exec-sync/tasks/task-processor";
+import { TaskValidator } from "../../eng/lib/exec-sync/tasks/task-validator";
 import { tasks } from "./tasks";
 
 export class SpecRunner {

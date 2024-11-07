@@ -1,6 +1,6 @@
 import { QualityRunner } from "./quality-runner";
-import { ITaskProcessor } from "./task-processor.interface";
-import { ITaskValidator } from "./task-validator";
+import { ITaskProcessor } from "../tasks/task-processor.interface";
+import { ITaskValidator } from "../tasks/task-validator";
 
 describe("qualityRunner", () => {
   let qualityRunnerObject: QualityRunner;

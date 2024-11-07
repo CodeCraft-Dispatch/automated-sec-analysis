@@ -1,4 +1,4 @@
-import { IExecSyncBuilder } from "./exec-sync-builder";
+import { IExecSyncBuilder } from "../adapter/exec-sync-builder";
 import { Stdio, Task } from "./task";
 import { ITaskValidator } from "./task-validator";
 
