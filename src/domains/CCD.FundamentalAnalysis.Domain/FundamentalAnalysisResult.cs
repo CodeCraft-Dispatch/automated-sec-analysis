@@ -4,94 +4,65 @@ namespace CCD.FundamentalAnalysis.Domain;
 
 public class FundamentalAnalysisResult
 {
-    public string CompanyName { get; }
-    public FactFileId FactFileId { get; }
-    public Cik Cik { get; }
-    public Percentage GrossMargin { get; }
-    public Percentage RevenueGrowth { get; }
-    public Percentage OperatingMargin { get; }
-    public Percentage NetProfitMargin { get; }
-    public Percentage ROA { get; }
-    public Percentage ROE { get; }
-    public Percentage DebtToEquityRatio { get; }
+    public Company Company { get; }
+    public Fundamentals Fundamentals { get; }
 
-    private FundamentalAnalysisThresholds _thresholds;
+    private readonly FundamentalAnalysisThresholds _thresholds;
+    private readonly BitFlags _flags;
 
     private FundamentalAnalysisResult(
-        string companyName,
-        FactFileId factFileId,
-        Cik cik,
-        Percentage grossMargin,
-        Percentage revenueGrowth,
-        Percentage operatingMargin,
-        Percentage netProfitMargin,
-        Percentage roa,
-        Percentage roe,
-        Percentage debtToEquityRatio,
+        Company company,
+        Fundamentals fundamentals,
         FundamentalAnalysisThresholds thresholds)
     {
-        CompanyName = companyName;
-        FactFileId = factFileId;
-        Cik = cik;
-        GrossMargin = grossMargin;
-        RevenueGrowth = revenueGrowth;
-        OperatingMargin = operatingMargin;
-        NetProfitMargin = netProfitMargin;
-        ROA = roa;
-        ROE = roe;
-        DebtToEquityRatio = debtToEquityRatio;
+        Company = company;
+        Fundamentals = fundamentals;
         _thresholds = thresholds;
+
+        _flags = BitFlags.False;
+
+        if (fundamentals.RevenueGrowth > _thresholds.HighGrowth) _flags |= BitFlagPosition.First;
+        if (fundamentals.GrossMargin > _thresholds.ProfitableGrossMargin) _flags |= BitFlagPosition.Second;
+        if (fundamentals.NetProfitMargin > _thresholds.ProfitableNetMargin) _flags |= BitFlagPosition.Third;
+        if (fundamentals.DebtToEquityRatio < _thresholds.StableDebtToEquity) _flags |= BitFlagPosition.Fourth;
+        if (fundamentals.ReturnOnAssets > _thresholds.StrongROA) _flags |= BitFlagPosition.Fifth;
+        if (fundamentals.ReturnOnEquity > _thresholds.StrongROE) _flags |= BitFlagPosition.Sixth;
+        if (HasStrongROA() && HasStrongROE()) _flags |= BitFlagPosition.Seventh;
     }
 
     public static Result<FundamentalAnalysisResult> Create(
-        string companyName,
-        string factFileId,
-        long cik,
-        decimal grossMargin,
-        decimal revenueGrowth,
-        decimal operatingMargin,
-        decimal netProfitMargin,
-        decimal roa,
-        decimal roe,
-        decimal debtToEquityRatio,
+        Company company,
+        Fundamentals fundamentals,
         FundamentalAnalysisThresholds thresholds)
     {
         return Result.Created(new FundamentalAnalysisResult(
-            companyName,
-            FactFileId.Create(factFileId),
-            Cik.Create(cik),
-            Percentage.Create(grossMargin),
-            Percentage.Create(revenueGrowth),
-            Percentage.Create(operatingMargin),
-            Percentage.Create(netProfitMargin),
-            Percentage.Create(roa),
-            Percentage.Create(roe),
-            Percentage.Create(debtToEquityRatio),
-            thresholds));
+            company,
+            fundamentals,
+            thresholds)
+            );
     }
 
-    public bool IsHighGrowth() => RevenueGrowth > _thresholds.HighGrowth;
+    public bool IsHighGrowth() => _flags == BitFlagPosition.First;
 
-    public bool IsProfitableGrossMargin() => GrossMargin > _thresholds.ProfitableGrossMargin;
+    public bool IsProfitableGrossMargin() => _flags == BitFlagPosition.Second;
 
-    public bool IsProfitableNetMargin() => NetProfitMargin > _thresholds.ProfitableNetMargin;
+    public bool IsProfitableNetMargin() => _flags == BitFlagPosition.Third;
 
-    public bool IsStableDebtToEquity() => DebtToEquityRatio < _thresholds.StableDebtToEquity;
+    public bool IsStableDebtToEquity() => _flags == BitFlagPosition.Fourth;
 
-    public bool HasStrongPerformance() => ROA > _thresholds.StrongROA && ROE > _thresholds.StrongROE;
+    public bool HasStrongROA() => _flags == BitFlagPosition.Fifth;
 
-    public override string ToString() => $"Company: {CompanyName}, " +
-                                         $"Gross Margin: {GrossMargin.ToPercentString()}, " +
-                                         $"Revenue Growth: {RevenueGrowth.ToPercentString()}, " +
-                                         $"Operating Margin: {OperatingMargin.ToPercentString()}, " +
-                                         $"Net Profit Margin: {NetProfitMargin.ToPercentString()}, " +
-                                         $"ROA: {ROA.ToPercentString()}, " +
-                                         $"ROE: {ROE.ToPercentString()}, " +
-                                         $"Debt to Equity Ratio: {DebtToEquityRatio.ToPercentString()}, " +
-                                         $"High Growth: {_thresholds.HighGrowth.ToPercentString()}, " +
-                                         $"Profitable Gross Margin: {_thresholds.ProfitableGrossMargin.ToPercentString()}, " +
-                                         $"Profitable Net Margin: {_thresholds.ProfitableNetMargin.ToPercentString()}, " +
-                                         $"Stable Debt to Equity: {_thresholds.StableDebtToEquity.ToPercentString()}, " +
-                                         $"Strong ROA: {_thresholds.StrongROA.ToPercentString()}, " +
-                                         $"Strong ROE: {_thresholds.StrongROE.ToPercentString()}";
+    public bool HasStrongROE() => _flags == BitFlagPosition.Sixth;
+
+    public bool HasStrongPerformance() => _flags == BitFlagPosition.Seventh;
+
+    public override string ToString() =>    $"{Fundamentals}," +
+                                            $"{_thresholds}, " +
+                                            $"High Growth: {IsHighGrowth()}, " +
+                                            $"Profitable Gross Margin: {IsProfitableGrossMargin()}, " +
+                                            $"Profitable Net Margin: {IsProfitableNetMargin()}, " +
+                                            $"Stable Debt to Equity: {IsStableDebtToEquity()}, " +
+                                            $"Strong ROA: {HasStrongROA()}, " +
+                                            $"Strong ROE: {HasStrongROE()}, " +
+                                            $"Strong Performance: {HasStrongPerformance()}";
 }

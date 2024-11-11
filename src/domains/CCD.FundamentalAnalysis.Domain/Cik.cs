@@ -4,18 +4,15 @@ namespace CCD.FundamentalAnalysis.Domain
 {
     public class Cik
     {
-        public long Value { get; }
+        public ulong Value { get; }
 
-        private Cik(long value)
+        private Cik(ulong value)
         {
             Value = value;
         }
 
-        public static Result<Cik> Create(long value)
+        public static Result<Cik> Create(ulong value)
         {
-            if (value <= 0)
-                return Result<Cik>.Invalid(new ValidationError("CIK cannot be less than or equal to 0"));
-
             if (value > 9999999999)
                 return Result<Cik>.Invalid(new ValidationError("CIK cannot be greater than ten digits"));
 
@@ -24,8 +21,8 @@ namespace CCD.FundamentalAnalysis.Domain
 
         public override string ToString() => Value.ToString();
 
-        public long ToLong() => Value;
+        public ulong ToLong() => Value;
 
-        public static implicit operator long(Cik cik) => cik.Value;
+        public static implicit operator ulong(Cik cik) => cik.Value;
     }
 }

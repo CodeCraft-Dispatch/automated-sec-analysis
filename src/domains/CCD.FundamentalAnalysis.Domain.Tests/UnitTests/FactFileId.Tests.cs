@@ -1,6 +1,6 @@
 using Ardalis.Result;
 
-namespace CCD.FundamentalAnalysis.Domain.Tests;
+namespace CCD.FundamentalAnalysis.Domain.Tests.UnitTests;
 
 [Trait("Category", "Domain")]
 [Trait("Category", "Unit")]
