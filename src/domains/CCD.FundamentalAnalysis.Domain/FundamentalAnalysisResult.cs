@@ -10,6 +10,19 @@ public class FundamentalAnalysisResult
     private readonly FundamentalAnalysisThresholds _thresholds;
     private readonly BitFlags _flags;
 
+    private readonly Dictionary<
+        Func<Fundamentals, FundamentalAnalysisThresholds, bool>,
+        BitFlagPosition> thresholdValidationRules = new()
+    {
+        { (fundamentals, thresholds) => fundamentals.RevenueGrowth > thresholds.HighGrowth, BitFlagPosition.First },
+        { (fundamentals, thresholds) => fundamentals.GrossMargin > thresholds.ProfitableGrossMargin, BitFlagPosition.Second },
+        { (fundamentals, thresholds) => fundamentals.NetProfitMargin > thresholds.ProfitableNetMargin, BitFlagPosition.Third },
+        { (fundamentals, thresholds) => fundamentals.DebtToEquityRatio < thresholds.StableDebtToEquity, BitFlagPosition.Fourth },
+        { (fundamentals, thresholds) => fundamentals.ReturnOnAssets > thresholds.StrongROA, BitFlagPosition.Fifth },
+        { (fundamentals, thresholds) => fundamentals.ReturnOnEquity > thresholds.StrongROE, BitFlagPosition.Sixth },
+        { (fundamentals, thresholds) => fundamentals.ReturnOnAssets > thresholds.StrongROA && fundamentals.ReturnOnEquity > thresholds.StrongROE, BitFlagPosition.Seventh }
+    };
+
     private FundamentalAnalysisResult(
         Company company,
         Fundamentals fundamentals,
@@ -21,13 +34,14 @@ public class FundamentalAnalysisResult
 
         _flags = BitFlags.False;
 
-        if (fundamentals.RevenueGrowth > _thresholds.HighGrowth) _flags |= BitFlagPosition.First;
-        if (fundamentals.GrossMargin > _thresholds.ProfitableGrossMargin) _flags |= BitFlagPosition.Second;
-        if (fundamentals.NetProfitMargin > _thresholds.ProfitableNetMargin) _flags |= BitFlagPosition.Third;
-        if (fundamentals.DebtToEquityRatio < _thresholds.StableDebtToEquity) _flags |= BitFlagPosition.Fourth;
-        if (fundamentals.ReturnOnAssets > _thresholds.StrongROA) _flags |= BitFlagPosition.Fifth;
-        if (fundamentals.ReturnOnEquity > _thresholds.StrongROE) _flags |= BitFlagPosition.Sixth;
-        if (HasStrongROA() && HasStrongROE()) _flags |= BitFlagPosition.Seventh;
+        var rule = thresholdValidationRules
+            .Where(condition => condition.Key(fundamentals, _thresholds))
+            .ToList();
+
+        foreach (var condition in rule)
+        {
+            _flags |= condition.Value;
+        }
     }
 
     public static Result<FundamentalAnalysisResult> Create(
