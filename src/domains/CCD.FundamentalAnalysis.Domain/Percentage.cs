@@ -2,7 +2,7 @@ using Ardalis.Result;
 
 namespace CCD.FundamentalAnalysis.Domain;
 
-public class Percentage
+public readonly record struct Percentage
 {
     public decimal Value { get; }
 

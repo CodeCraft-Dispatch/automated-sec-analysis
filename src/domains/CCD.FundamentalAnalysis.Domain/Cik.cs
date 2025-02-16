@@ -2,7 +2,7 @@ using Ardalis.Result;
 
 namespace CCD.FundamentalAnalysis.Domain
 {
-    public class Cik
+    public readonly record struct Cik
     {
         public ulong Value { get; }
 
