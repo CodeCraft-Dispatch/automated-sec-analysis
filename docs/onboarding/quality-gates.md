@@ -13,6 +13,7 @@ The following pre-commit hooks are enforced via a series of tasks:
 - **test:gate**: This task runs the test suite for the quality gates.
 - **test:engine-library**: This task runs the test suite for the engine library.
 - **audit:check:json**: This task checks for any security vulnerabilities in the project dependencies using npm audit.
+- **test:fundamentalanalysis**: This task runs the Unit test suite for the FundamentalAnalysis solution.
 - **fta:rules**: This task gathers and analyzes the code metrics using the Fast Time Analyzer (FTA) tool.
 - **Commitlint**: Commitlint is used to enforce [conventional commit](https://www.conventionalcommits.org/en/v1.0.0/) messages. This ensures that commit messages follow a consistent format.
 
