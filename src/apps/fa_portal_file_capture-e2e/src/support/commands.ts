@@ -10,6 +10,8 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
+export { };
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {

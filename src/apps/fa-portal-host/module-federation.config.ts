@@ -1,4 +1,12 @@
-import { ModuleFederationConfig } from '@nx/module-federation';
+import { ModuleFederationConfig, SharedFunction, SharedLibraryConfig } from '@nx/module-federation';
+
+const sharedFunction: SharedFunction = (libraryName: string, sharedConfig: SharedLibraryConfig) => {
+  const sharedLibraries = ['@angular/core', '@angular/common', '@angular/router', '@angular/material'];
+  if (sharedLibraries.includes(libraryName)) {
+    return { singleton: true, strictVersion: true, requiredVersion: 'auto' };
+  }
+  return sharedConfig;
+};
 
 const config: ModuleFederationConfig = {
   name: 'fa-portal-host',
@@ -15,6 +23,7 @@ const config: ModuleFederationConfig = {
    *
    */
   remotes: ['fa_portal_file_capture'],
+  shared: sharedFunction
 };
 
 /**
