@@ -25,7 +25,6 @@ export const config = {
     score: 50,              // target: 0-40, 61+
   },
   projects: [
-    createProject("root", "."),
     createProject("engine-library", "./eng/lib"),
   ],
 };

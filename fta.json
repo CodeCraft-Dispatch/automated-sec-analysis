@@ -1,10 +1,10 @@
 {
   "output_limit": 5000,
   "score_cap": 90,
-  "exclude_filenames": ["commitlint.config.ts"],
   "extensions": [".ts", ".js"],
   "include_comments": false,
   "exclude_under": 6,
+  "exclude_filenames": ["commitlint.config.ts", "*.{.tsx}", "*.component.ts"],
   "exclude_directories": [
     "/node_modules",
     "/build",

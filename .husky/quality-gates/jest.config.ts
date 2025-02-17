@@ -6,4 +6,9 @@ module.exports = {
   displayName: "quality-gates",
   testMatch: ["**/quality-gates/**/*.spec.ts"], // Ensure it matches your JS test files
   coverageDirectory: "<rootDir>../../coverage/quality-gates",
+  transform: {
+    "^.+\\.ts$": ["ts-jest", {
+      tsconfig: '.husky/quality-gates/tsconfig.gates.json'
+    }]
+  }
 };

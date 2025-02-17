@@ -12,5 +12,10 @@ module.exports = {
             lines: -1,
             statements: -1,
         },
+    },
+    transform: {
+        "^.+\\.ts$": ["ts-jest", {
+            tsconfig: 'eng/lib/tsconfig.englib.json'
+        }]
     }
 };

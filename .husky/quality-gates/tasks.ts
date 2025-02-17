@@ -22,15 +22,11 @@ export const tasks: Task[] = [
   },
   {
     command: "npm",
-    args: ["run", "test:fundamentalanalysis"],
+    args: ["run", "nx:all"]
   },
   {
     command: "npm",
-    args: ["run", "audit:check:json"],
-  },
-  {
-    command: "echo",
-    args: ["Running fta rules..."],
+    args: ["run", "test:fundamentalanalysis"],
   },
   {
     command: "npm",

@@ -402,3 +402,5 @@ FodyWeavers.xsd
 .nx/cache
 .nx/workspace-data
 .angular
+
+/dist

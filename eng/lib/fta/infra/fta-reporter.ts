@@ -1,5 +1,5 @@
-import { FtaViolation } from '../analysis/fta-violation-builder';
-import { IFtaLogger } from './fta-logger';
+import type { FtaViolation } from '../analysis/fta-violation-builder';
+import type { IFtaLogger } from './fta-logger';
 
 export interface IFtaReporter {
   outputResults(results: any): void;

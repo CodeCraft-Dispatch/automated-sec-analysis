@@ -1,0 +1,10 @@
+{
+  "name": "fa_portal_file_capture-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "src/apps/fa_portal_file_capture-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["fa_portal_file_capture"],
+  "// targets": "to see all targets run: nx show project fa_portal_file_capture-e2e --web",
+  "targets": {}
+}

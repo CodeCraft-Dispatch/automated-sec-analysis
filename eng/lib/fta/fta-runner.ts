@@ -1,10 +1,12 @@
-import { FtaAnalysisOptions } from 'fta-cli';
+import type { FtaAnalysisOptions } from 'fta-cli';
 import { FtaAnalyzer } from './analysis/fta-analyzer';
 import { FtaComparer } from './analysis/fta-comparer';
 import { FtaProjectGroupAnalyzer } from './analysis/fta-project-group-analyzer';
-import { FtaResultAnalyzer, IFtaResultAnalyzer } from './analysis/fta-result-analyzer';
+import { FtaResultAnalyzer } from './analysis/fta-result-analyzer';
+import type { IFtaResultAnalyzer } from './analysis/fta-result-analyzer';
 import { FtaLogger } from './infra/fta-logger';
-import { FtaReporter, IFtaReporter } from './infra/fta-reporter';
+import { FtaReporter } from './infra/fta-reporter';
+import type { IFtaReporter } from './infra/fta-reporter';
 
 export class FtaRunner {
   private analyzer: (projectPath: string, options: FtaAnalysisOptions) => string;
