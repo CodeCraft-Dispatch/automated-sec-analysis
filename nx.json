@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "targetDefaults": {
+    "test:gate": {
+      "outputs": ["{projectRoot}/coverage/quality-gates"],
+      "cache": false
+    },
+    "test:engine-library": {
+      "outputs": ["{projectRoot}/coverage/engine-library"],
+      "cache": false
+    },
+    "test:fundamentalanalysis": {
+      "cache": false
+    }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      }
+    }
+  ]
+}
