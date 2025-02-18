@@ -1,5 +1,6 @@
 import type { FtaViolation } from '../analysis/fta-violation-builder';
 import type { IFtaLogger } from './fta-logger';
+import { FtaReporterFormat } from './fta-reporter-format';
 
 export interface IFtaReporter {
   outputResults(results: any): void;
@@ -12,31 +13,22 @@ export class FtaReporter implements IFtaReporter {
     this.logger = logger;
   }
 
-  private groupViolationsByFile(violations: FtaViolation[]): { [key: string]: FtaViolation[] } {
-    return violations.reduce((acc, result) => {
-      acc[result.file_name] = acc[result.file_name] || [];
-      acc[result.file_name].push(result);
-      return acc;
-    }, {});
-  }
-
   public outputResults(results) {
-    if (results.meetsThresholds === true || results.violations.length === 0) {
+    if (this.hasNoViolations(results)) {
       this.logger.log('No violations found');
+      this.logger.log(JSON.stringify(results));
     } else {
+      const formatter = new FtaReporterFormat(this.logger);
       this.logger.error('\nViolations found\n');
-      const groupedResults = this.groupViolationsByFile(results.violations);
-      Object.entries(groupedResults)
-        .forEach(([file, violations]) => {
-          this.logger.error(`${file}:`);
-          violations.forEach((violation) => {
-            this.logger.log(
-              `| Threshold: ${violation.threshold_name}, Value: ${violation.result_value}, Threshold: ${violation.threshold}`
-            );
-          });
-        });
+      const groupedResults = formatter.groupViolationsByFile(results.violations);
+      Object.entries(groupedResults).forEach(formatter.processFileViolations.bind(formatter));
       this.logger.log('\n');
       throw new Error('Violations found');
     }
+  }
+
+  private hasNoViolations(results) {
+    const hasNoViolations = !results.violations || results.violations.length === 0;
+    return hasNoViolations && results.meetsThresholds === true;
   }
 }

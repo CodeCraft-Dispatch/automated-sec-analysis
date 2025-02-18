@@ -14,23 +14,15 @@ export const tasks: Task[] = [
   },
   {
     command: "npm",
-    args: ["run", "test:gate"],
+    args: ["run", "nx:checks"],
   },
   {
-    command: "npm",
-    args: ["run", "test:engine-library"]
+    command: "node",
+    args: ["-e", '"console.log(new Date().toLocaleString())"'],
   },
   {
     command: "npm",
     args: ["run", "nx:all"]
-  },
-  {
-    command: "npm",
-    args: ["run", "test:fundamentalanalysis"],
-  },
-  {
-    command: "npm",
-    args: ["run", "fta:rules"],
   },
   {
     command: "node",

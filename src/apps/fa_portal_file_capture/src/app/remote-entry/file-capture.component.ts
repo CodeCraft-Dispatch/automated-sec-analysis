@@ -10,7 +10,7 @@ import { FileCaptureTimingComponent } from './domain/file-capture-timing.compone
       <div class="container">
         <!--  WELCOME  -->
         <div id="welcome">
-          <h1>Welcome File Capture</h1>
+          <h1 data-test="file-capture-header">File Capture</h1>
         </div>
         <!--  FILE CAPTURE TIMING  -->
         <div class="file-capture-timing">

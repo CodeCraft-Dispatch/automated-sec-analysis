@@ -12,6 +12,10 @@
     "test:fundamentalanalysis": {
       "cache": false
     },
+    "fta:rules": {
+      "executor": "tsx",
+      "cache": false
+    },
     "@angular-devkit/build-angular:browser": {
       "cache": false,
       "dependsOn": ["^build"],
