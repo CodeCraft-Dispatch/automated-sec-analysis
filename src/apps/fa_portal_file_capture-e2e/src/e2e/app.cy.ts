@@ -1,13 +1,11 @@
-import { getGreeting } from '../support/app.po';
+import { fileCaptureDsl } from '../support/dsl/domain/file-capture/dsl';
 
 describe('fa_portal_file_capture-e2e', () => {
-  beforeEach(() => cy.visit('/'));
+  const dsl = fileCaptureDsl;
 
-  it('should display welcome message', () => {
-    // Custom command example, see `../support/commands.ts` file
-    cy.login('my-email@something.com', 'myPassword');
-
-    // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains(/Welcome/);
+  it('should provide target file capture timing', () => {
+    dsl.given().targetFileCaptureTimingIsDefined();
+    dsl.when().accessesFileCapture();
+    dsl.then().targetFileCaptureTimingIsProvided();
   });
 });

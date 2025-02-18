@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { FileCaptureComponent } from './file-capture.component';
 
 @Component({
-  imports: [CommonModule, NxWelcomeComponent],
+  imports: [CommonModule, FileCaptureComponent],
   selector: 'app-fa_portal_file_capture-entry',
-  template: `<app-nx-welcome></app-nx-welcome>`,
+  template: `<app-file-capture-root></app-file-capture-root>`,
 })
-export class RemoteEntryComponent {}
+export class RemoteEntryComponent { }
