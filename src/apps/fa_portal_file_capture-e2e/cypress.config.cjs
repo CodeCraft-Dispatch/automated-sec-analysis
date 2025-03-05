@@ -6,6 +6,10 @@ module.exports = defineConfig({
   e2e: {
     ...nxE2EPreset(__filename, {
       cypressDir: 'src',
+      webServerConfig: {
+        reuseExistingServer: true,
+        timeout: 120000,
+      },
       webServerCommands: {
         default: 'npx nx run fa_portal_file_capture:serve',
         production: 'npx nx run fa_portal_file_capture:serve-static',

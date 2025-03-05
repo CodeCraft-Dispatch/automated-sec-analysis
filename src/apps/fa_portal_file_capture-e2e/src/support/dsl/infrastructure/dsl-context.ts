@@ -15,7 +15,7 @@ export interface IDslContext {
  * @example
  * ```typescript
  * const dslContext = DslContext.create();
- * dslContext.greeting = 'Hello, World!';
+ * dslContext['greeting'] = 'Hello, World!';
  * console.log(dslContext.greeting); // Hello, World!
  * ```
  */
